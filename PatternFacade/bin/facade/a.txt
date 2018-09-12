@@ -1,0 +1,107 @@
+
+========================================================================================================================
+package facade;
+
+public class Buy implements IBuy
+{
+	private Sector sector;
+	private Storage storage;
+	private Invoice invoice;
+	private Email email;
+	
+	@Override
+	public void buy(String product, int value) 
+	{
+		instaceVariables();
+		if(product != null && !product.isEmpty() && value > 0) 
+		{
+			this.sector.pack(product, value);
+			this.storage.pool(product, value);
+			this.invoice.generate(product);
+			this.email.send();
+			System.out.println("\n=============================================\n");
+		}
+	}
+	
+	public void instaceVariables() 
+	{
+		if(null == this.sector) 
+			sector = new Sector();
+		if(null == this.storage) 
+			storage = new Storage();
+		if(null == this.invoice) 
+			invoice = new Invoice();
+		if(null == this.email) 
+			email = new Email();
+	}
+}
+
+========================================================================================================================
+package facade;
+
+public class Email 
+{
+	public void send() 
+	{
+		System.out.println("Sending email");
+	}
+}
+
+========================================================================================================================
+package facade;
+
+public interface IBuy 
+{
+	public void buy(String product, int value);
+}
+
+========================================================================================================================
+package facade;
+
+public class Invoice 
+{
+	public void generate(String product) 
+	{
+		System.out.println("Generating invoice of " + product);
+	}
+}
+
+========================================================================================================================
+package facade;
+
+public class Sector 
+{
+	public void pack(String product, int value) 
+	{
+		System.out.println("Packing "+ product +" in value of: "+ value);
+	}
+}
+
+========================================================================================================================
+package facade;
+
+public class Storage 
+{	
+	public void pool(String product, int value) 
+	{
+		System.out.println("Decreasing " + product + " at " + product + " list in "+ value);
+	}
+}
+
+========================================================================================================================
+package facade;
+
+public class ToyStore 
+{
+	public static void main(String[] args) {
+		Buy bt = new Buy();
+		bt.buy("Buzz lightear", 1550);
+		bt.buy("Woody", 15500);
+		bt.buy("Mr.Potato", 15);
+		bt.buy(null, 0);
+		
+		System.out.println("Thank's and come back =)");
+	}
+}
+
+========================================================================================================================
